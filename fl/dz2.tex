@@ -1,0 +1,104 @@
+\documentclass{article}
+\usepackage[a4paper, margin=2cm]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage[russian]{babel}
+\usepackage{mathtools}
+\usepackage{amsmath}
+\usepackage{tikz}
+
+\usetikzlibrary{automata,positioning}
+
+\title{ДЗ №1}
+\author{Макаров Михаил}
+\date{}
+
+\begin{document}
+	\maketitle
+
+    \section{Задача №1}
+    \subsection{а)}
+\begin{tikzpicture}[shorten >=1pt,node distance=2cm,on grid,auto] 
+    \node [state, initial] (q_0) {0};
+    \node [state, accepting] (q_1) [right=of q_0] {1};
+    \node [state] (q_2) [right=of q_1] {2};
+    \node [state] (q_3) [right=of q_2] {3};
+    \node [state] (q_4) [above=of q_2] {4};
+    \node [state] (q_5) [below=of q_3] {5};
+    
+    \path[->] (q_0) edge node {a} (q_1)
+              (q_1) edge node {a} (q_2)
+                    edge [loop above] node {b} ()
+              (q_2) edge [bend right] node {a} (q_4)
+              (q_4) edge [bend right] node {b} (q_2)
+              (q_2) edge node {a} (q_3)
+              (q_3) edge [bend right] node {a} (q_5)
+              (q_5) edge [bend right] node {b} (q_3)
+              (q_5) edge [bend left] node {b} (q_1)
+              (q_2) edge [bend left] node {a} (q_1);   
+\end{tikzpicture}	
+    \subsection{б)}
+	\begin{tikzpicture}[shorten >=1pt,node distance=2cm,on grid,auto] 
+    \node [state, initial] (q_0) {0};
+    \node [state, accepting] (q_1) [right=of q_0] {1};
+    \node [state] (q_2) [below=of q_0] {2};
+    \node [state] (q_3) [below=of q_1] {3};
+    
+    \path[->] (q_0) edge [loop above] node {b} ()
+              (q_0) edge [bend right] node {a} (q_2)
+              (q_2) edge [bend right] node {b} (q_0)
+              (q_2) edge [bend right] node {a} (q_3)
+              (q_3) edge [bend right] node {a} (q_2)
+              (q_1) edge [bend right] node {a} (q_3)
+              (q_3) edge [bend right] node {b} (q_1)
+              (q_1) edge [loop above] node {b} ();
+                
+    \end{tikzpicture}
+    
+    \section{Задача №2}
+    Рассмотрим язык $L = \{ \epsilon, a \}$ и предположим, что он выражается автоматом
+    с одним завершающим состоянием. Так как $L$ содержит пустое слово, то начальное состояние
+    обязано быть завершающим. С другой стороны, так как $L$ содержит $a$, то из начального состояния
+    должно существовать ребро по $a$ в конечное состояние. Следовательно, существует петля
+    из начального состояния по $a$. Но тогда этот автомат также принимает любое слово из $a^*$.
+    Следовательно, $L$ не выражается таким автоматом, следовательно, класс языков, распознаваемых такими
+    автоматами не совавдает с классом всех автоматных языков.
+    
+    \section{Задача №3}
+    Да. Рассмотрим произвольный автоматный язык $L$ без пустого слова. Для него существует НКА с
+    однобуквенными переходами $M = <Q, \Sigma, \Delta, q_0, F>, L = L(M)$. Построим НКА с
+    однобуквенными переходами $M' = <Q' = Q \cup \{ q_f \}, \Sigma, \Delta', q_0, \{ q_f \}> $, 
+    $\Delta' = \Delta \cup \{ (q_i, c) \rightarrow q_f |
+     ((q_i, c) \rightarrow q_1) \in \Delta \; \forall q_i \in Q \; \forall q_1 \in F \} $. \\
+     Докажем $L(M) = L(M')$. \\
+     Так как в $L$ нет пустого слова, то $ \forall w' \in L \; w' = wa \; w \neq \epsilon \; a \in \Sigma$.
+     \begin{multline}
+     wa \in L(M) \leftrightarrow \Delta (q_0, wa) \cap F \neq \emptyset \leftrightarrow 
+     \exists q \in \Delta (q_0, w) \; \exists q_1 \in F: ((q, a) \rightarrow q_1) \in \Delta \leftrightarrow \\
+     \exists q \in \Delta (q_0, w): ((q, a) \rightarrow q_f) \in \Delta' \leftrightarrow
+     q_f \in \Delta'(q_0, wa) \leftrightarrow wa \in L(M')
+     \end{multline}
+     
+     \section{Задача №4}
+     Да. Возьмём произвольный автомат $M$ и преобразуем его как в задаче №3, но к множеству завершающих
+     добавим начльное, если оно было таковым в исходном $M$. Тогда так как из $q_f$ нет исходящих рёбер,
+     то множество слов, приходящих в $q_0$ в $M'$ то же, что и в $M$. Тогда так как для любого слова из $L(M)$ оно
+     принимается в $M'$ (если слово принималось $q_0$, то оно также принимается $q_0$, иначе оно имеет хотя бы 
+     одну букву), то множества принимаемых языков совпадают.
+     
+     \section{Задача №5}
+     Да. По автомату $M = <Q', \Sigma, \Delta, q_0, F>, L = L(M)$, построим автомат
+     $M' = <Q, \Sigma, \Delta', q_0, F'>, L = L(M)$, 
+     $Q' = Q \cup \{ q_s \}$,
+     $F' = Q$,\\
+     $\Delta' = \Delta \cup \{ (q, a) \rightarrow q' |
+      \exists i_1, \ldots i_m, (q_{i_j}, a) \rightarrow q_{i_{j + 1}} \in \Delta,
+       q = q_{i_1}, q' = q_{i_m}, m \leq k \} \cup \{ (q_s, \epsilon) \rightarrow q| q \in Q \} $.\\
+     Докажем, что $L(M') = Subseq_k(L(M))$.\\
+     \begin{multline}
+     w \in Subseq_k(L(M)) \leftrightarrow \exists w' \in L(M), \exists p_1, \ldots p_m, (p_j - p_{j - 1}) < k, m = |w|, 
+     w[j] = w'[p_j] \leftrightarrow \\
+     \exists q_0, \ldots, q_n, n = |w'|, (q_i, w'[i + 1]) \rightarrow q_{i+1} \in \Delta, q_n \in F \leftrightarrow \\
+     \exists q'_0, \ldots, q'_m, q'_i = q'_{p_i}, (q'_i, w[i + 1]) \rightarrow q'_{i+1} \in \Delta \leftrightarrow 
+     w \in L(M')
+     \end{multline}
+\end{document}
