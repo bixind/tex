@@ -1,0 +1,65 @@
+\documentclass{article}
+\usepackage[a4paper, margin=2cm]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage[russian]{babel}
+\usepackage{mathtools}
+\usepackage{amsmath}
+\usepackage{tikz}
+\usepackage{amsthm}
+
+\usetikzlibrary{automata,positioning}
+
+\title{ИПР №2 - 6.1.5(2)}
+\author{Макаров Михаил}
+\date{}
+
+\newtheorem{prop}{Утверждение}
+
+\begin{document}
+	\maketitle
+	\section{Правая часть}
+    Докажем неравенство $\binom{n}{[n/2]} < 2^n$.\\
+    По биному Ньютона
+    \[
+       \binom{n}{[n/2]} < \sum_{k=0}^{n} \binom{n}{k} = (1 + 1) ^ n = 2 ^ n
+    \]
+    \section{Левая часть}
+    Докажем неравенство $ \frac{2^n}{n + 1} < \binom{n}{[n/2]} $.\\
+    Для этого докажем
+    \begin{prop}
+    \label{ut1}
+         $\forall k \in \mathcal{Z}, 0 \leq k \leq n: \binom{n}{[n/2]} \geq \binom{n}{k} $
+    \end{prop}
+    \begin{proof} 
+    Рассмотрим случай $k \leq [n/2]$. Тогда
+    \[
+        n - [n/2] + 1 + i \geq k + 1 + i\; \forall i \in \mathcal{Z}
+    \]
+    \[
+        \prod_{i = 0}^{[n/2] - k - 1} n - [n/2] + 1 + i \geq \prod_{i = 0}^{[n/2] - k - 1} k + 1 + i
+    \]
+    \[
+        (n - k)\cdot \ldots \cdot (n - [n/2] + 1) \geq ([n/2]) \cdot \ldots \cdot (k + 1)
+    \]
+    \[
+        \frac{(n-k)!}{(n - [n/2])!} \geq \frac{([n/2])!}{k!}
+    \]
+    \[
+        \frac{1}{([n/2])!(n - [n/2])!} \geq \frac{1}{k!(n-k)!}
+    \]
+    \[
+        \binom{n}{[n/2]} = \frac{n!}{([n/2])!(n - [n/2])!} \geq \frac{n!}{k!(n-k)!} = \binom{n}{k}
+    \]
+    Для $k > [n/2], n - k \leq [n/2]$ и :
+    \[
+        \binom{n}{k} = \frac{n!}{k!(n-k)!} = \binom{n}{n - k} \leq \binom{n}{[n/2]}
+    \]
+    \end{proof}    
+    Тогда по \ref{ut1} и биному Ньютона:\\
+    \[
+        \binom{n}{[n/2]} * (n + 1) > \sum_{k=0}^{n} \binom{n}{k} = (1 + 1) ^ n = 2 ^ n
+    \]
+    \[
+        \binom{n}{[n/2]} > \frac{2 ^ n}{n + 1}
+    \]
+\end{document}
