@@ -1,0 +1,149 @@
+\documentclass{article}
+\usepackage[a4paper, margin=2cm]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage[russian]{babel}
+\usepackage{mathtools}
+\usepackage{amsmath}
+\usepackage{tikz}
+
+\usetikzlibrary{automata,positioning}
+
+\title{ДЗ №3}
+\author{Макаров Михаил}
+\date{}
+
+\begin{document}
+	\maketitle
+
+    \section{Задача №1}
+    Это недетерминированный автомат.\\
+    \begin{tikzpicture}[shorten >=1pt,node distance=2cm,on grid,auto] 
+    \node [state, initial] (q_0) {0};
+    \node [state] (q_1) [right=of q_0] {1};
+    \node [state] (q_2) [right=of q_1] {2};
+    \node [state] (q_3) [right=of q_2] {3};
+    \node [state, accepting] (q_6) [right=of q_3] {6};
+    \node [state] (q_4) [below=of q_1] {4};
+    \node [state] (q_5) [right=of q_4] {5};
+    
+    \path[->] (q_0) edge node {a} (q_1)
+              (q_0) edge [loop above] node {a, b} ()
+              (q_1) edge node {b} (q_2) 
+              (q_2) edge node {a} (q_3)
+              (q_1) edge node {a} (q_4)
+              (q_4) edge [loop below] node {a, b} ()
+              (q_4) edge node {b} (q_5)
+              (q_5) edge node {b} (q_3)
+              (q_3) edge [loop above] node {b} ()
+              (q_3) edge node {a} (q_6)
+              (q_6) edge [loop above] node {b} ();
+    \end{tikzpicture}\\
+    Детерминируя его, получаем:\\
+    \begin{tabular}{c c c}
+    0 & a & 01 \\
+        & b & 0 \\
+    01 & a & 014 \\
+        & b & 02\\
+    014 & a & 014\\
+        & b & 0245\\
+    02 & a & 013\\
+        & b & 0\\
+    0245 & a & 0134\\
+        & b & 0345\\
+    013 & a & 0146\\
+        & b & 023\\
+    0134 & a & 0146\\
+        & b & 02345\\
+    0345 & a & 0146\\
+        & b & 0345\\
+    0146 & a & 014\\
+        & b & 02456\\
+    02345 & a & 01346\\
+        & b & 0345\\
+    \end{tabular}
+    \quad
+    \begin{tabular}{c c c}
+    023 & a & 0136 \\
+        & b & 03\\
+    0345 & a & 0146\\
+        & b & 0345\\
+    02456 & a & 0134\\
+        & b & 03456\\
+    0136 & a & 0146\\
+        & b & 0236\\
+    01346 & a & 0146\\
+     & b & 023456\\
+    03 & a & 016\\
+        & b & 03\\
+    03456 & a & 0146\\
+        & b & 03456\\
+    023456 & a & 01346\\
+        & b & 03456\\
+    016 & a & 014\\
+        & b & 026\\
+    0236 & a & 0136\\
+        & b & 036\\
+    036 & a & 016\\
+        & b & 036\\
+    026 & a & 013\\
+        & b & 06\\
+    06 & a & 01\\
+        & b & 06\\
+    \end{tabular}
+    \quad
+    
+    
+    
+    \begin{tabular}{c c c}
+    0 & a & 1 \\
+        & b & 0 \\
+    1 & a & 2 \\
+        & b & 3\\
+    2 & a & 2\\
+        & b & 4\\
+    3 & a & 5\\
+        & b & 0\\
+    4 & a & 6\\
+        & b & 7\\
+    5 & a & 8\\
+        & b & 10\\
+    6 & a & 8\\
+        & b & 9\\
+    7 & a & 8\\
+        & b & 7\\
+    8 & a & 2\\
+        & b & 11\\
+    9 & a & 13\\
+        & b & 7\\
+    \end{tabular}
+    \quad
+    \begin{tabular}{c c c}
+    10 & a & 12 \\
+        & b & 14\\
+    7 & a & 8\\
+        & b & 7\\
+    11 & a & 6\\
+        & b & 15\\
+    12 & a & 8\\
+        & b & 18\\
+    13 & a & 8\\
+     & b & 16\\
+    14 & a & 17\\
+        & b & 14\\
+    15 & a & 8\\
+        & b & 15\\
+    16 & a & 13\\
+        & b & 15\\
+    17 & a & 2\\
+        & b & 20\\
+    18 & a & 12\\
+        & b & 19\\
+    19 & a & 17\\
+        & b & 19\\
+    20 & a & 5\\
+        & b & 21\\
+    21 & a & 1\\
+        & b & 21\\
+    \end{tabular}
+
+\end{document}

@@ -86,13 +86,16 @@
      одну букву), то множества принимаемых языков совпадают.
      
      \section{Задача №5}
-     Да. По автомату $M = <Q', \Sigma, \Delta, q_0, F>, L = L(M)$, построим автомат
-     $M' = <Q, \Sigma, \Delta', q_0, F'>, L = L(M)$, 
+     Да. По автомату $M = <Q, \Sigma, \Delta, q_0, F>, L = L(M)$, построим автомат
+     $M' = <Q', \Sigma, \Delta', q_0, F'>, L = L(M)$, 
      $Q' = Q \cup \{ q_s \}$,
      $F' = Q$,\\
      $\Delta' = \Delta \cup \{ (q, a) \rightarrow q' |
       \exists i_1, \ldots i_m, (q_{i_j}, a) \rightarrow q_{i_{j + 1}} \in \Delta,
        q = q_{i_1}, q' = q_{i_m}, m \leq k \} \cup \{ (q_s, \epsilon) \rightarrow q| q \in Q \} $.\\
+     То есть создадим новое начальное состояние $q_s$ и нарисуем рёбра по пустому слову из него во все остальные вершины.
+     Сделаем все вершины конечными. Для каждых 2 вершин $a, b$  добавим переход из $a$ в $b$ по $c$, если 
+     $a$ достижима из $b$ по слову длины менее $k$ и последняя буква этого слова $c$.
      Докажем, что $L(M') = Subseq_k(L(M))$.\\
      \begin{multline}
      w \in Subseq_k(L(M)) \leftrightarrow \exists w' \in L(M), \exists p_1, \ldots p_m, (p_j - p_{j - 1}) < k, m = |w|, 
@@ -101,4 +104,7 @@
      \exists q'_0, \ldots, q'_m, q'_i = q'_{p_i}, (q'_i, w[i + 1]) \rightarrow q'_{i+1} \in \Delta \leftrightarrow 
      w \in L(M')
      \end{multline}
+     То есть если в новом автомате принимается слово $w$, то можно достроить его до слова $w'$, 
+     добавив меньше $k-1$ буквы между каждой буквой слова $w$, причём $w'$ - подслово какого-то слова языка исходного
+     автомата.
 \end{document}
