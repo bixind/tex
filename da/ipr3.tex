@@ -1,0 +1,61 @@
+\documentclass{article}
+\usepackage[a4paper, margin=2cm]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage[russian]{babel}
+\usepackage{mathtools}
+\usepackage{amsmath}
+\usepackage{tikz}
+\usepackage{amsthm}
+
+\usetikzlibrary{automata,positioning}
+
+\newcommand{\range}[2]{
+    \{#1, \ldots, #2 \}
+}
+
+\title{ИПР №3 - 2.2.1(3)}
+\author{Макаров Михаил}
+\date{}
+
+\newtheorem{prop}{Утверждение}
+
+\begin{document}
+	\maketitle
+	\section{Существование}
+	Следует из того, что дерево - связный граф.
+	\section{Единственность}
+	Предположим, что существует два несамопересекающихся различных пути $s_1 := v_1e_1v_2\ldots v_n$,
+	$s_2 := u_1f_1\ldots u_m$, такие что $u_1 = v_1, v_n = u_m$.\\
+	Так как они различны, то
+	$i_l := min\{i| i \in \range{1}{\min(n, m)}: v_i \neq u_i \wedge e_i \neq f_i$\} определена корректно.\\
+	Заметим, что $i_l \neq 1$.
+    \begin{prop} 
+        $v_{i_l} = u_{i_l}$
+    \end{prop}
+    \begin{proof}
+        Предположим что это не так. Так как $i_l \neq 1$, то, $v_{i_l - 1}, u_{i_l - 1}$ существуют 
+        и совпадают. Тогда так как 
+        $v_{i_l - 1} = u_{i_l - 1}, v_{i_l} \neq u_{i_l}$, то $e_{i_l - 1} \neq f_{i_l - 1}$, что противоречит
+        минимальности $i_l$.
+    \end{proof}
+    Следовательно, $e_{i_l} \neq f_{i_l}$.\\
+    Определим $s'_1 := v_{i_l}e_{i_l}\ldots v_n$, $s'_2 := u_{i_l}f_{i_l}\ldots u_m$.\\
+    Определим $j_l = i_l$,
+    $i_r := min\{i| i \in \range{i_l}{n}: \exists j \in \range{j_l}{m}: \neg(i = j = i_l) \land (v_i = u_j \lor e_{i - 1} = f_{j - 1})$,\\
+    Заметим, что $i_r$ определена, так как пути $s'_1, s'_2$ различны.
+    Пусть $j_r$ - соответсвующее значение $j$ для $i_r$.
+    Заметим, что $j_r, i_r > i_l$, так как $e_{i_l} \neq f_{i_l}$, и, соответсвенно, $v_{i_l + 1} \neq u_{i_l + 1}$.
+    \begin{prop} 
+        $e_{i_r - 1} \neq f_{j_r - 1}$
+    \end{prop}
+    \begin{proof}
+        Предположим что это не так. Тогда так как $\neg(i_r = j_r = i_l)$, $e_{i_l} \neq f_{i_l}$, то 
+        $i_r > i_l, j_r > j_l$, $v_{i_r - 1} = u_{i_r - 1} \neq v_{i_l}$, что противоречит
+        минимальности $i_r$.
+    \end{proof}
+    Тогда по построению $i_l, i_r$ пути $s'_1 := v_{i_l}e_{i_l}\ldots v_{i_r}$, $s'_2 := u_{i_l}f_{i_l}\ldots u_{j_r}$
+    не могут оба состоять из одной вершины и пересекаются по $v_{i_l}, v_{j_r}$. Следовательно, так как исходные
+    пути не содержали самопересечений, то цикл $v_{i_l},\ldots, v_{i_r} = u_{j_r}, \ldots u_{j_l} = v_{i_l}$ не 
+    содержит самопересечений и состоит хотя бы из одного ребра, что противоречит тому, что граф - дерево.
+    Следовательно, в дереве не существует двух различных путей между любыми двумя вершинами.
+\end{document}
