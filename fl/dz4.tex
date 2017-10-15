@@ -1,0 +1,174 @@
+\documentclass{article}
+\usepackage[a4paper, margin=2cm]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage[russian]{babel}
+\usepackage{mathtools}
+\usepackage{amsmath}
+\usepackage{tikz}
+
+\usetikzlibrary{automata,positioning}
+
+\title{ДЗ №4}
+\author{Макаров Михаил}
+\date{}
+
+\begin{document}
+	\maketitle
+
+    \section{Задача №1}
+    \subsection{А}
+    \begin{tabular}{l}
+    $ S \to AR $\\
+    $ S \to LC $\\
+    $ L \to aLb $\\
+    $ R \to bRc $\\
+    $ L \to aA $\\
+    $ R \to cC $\\
+    $ A \to aA $\\
+    $ C \to cC $\\
+    $ A \to \epsilon$\\
+    $ C \to \epsilon$\\
+    \end{tabular}\\
+    По построению $L$ раскрывается в $a^nb^m|n > m$, $R$ в $b^nc^m|n < m$.
+    \subsection{Б}
+    \begin{tabular}{l}
+    $ S \to aC $\\
+    $ S \to AaaC$\\
+    $ S \to CB$\\
+    $ A \to aA$\\
+    $ A \to \epsilon$\\
+    $ B \to bB$\\
+    $ B \to \epsilon$\\
+    $ C \to aCb $\\
+    $ C \to \epsilon$\\
+    \end{tabular}\\
+    По построению $C$ раскрывается в $a^lb^l$, тогда переходы из $S$ соответсвуют случаям, когда 
+    $n - m = 1$, $n - m > 2$, $n - m < 0$.
+    \subsection{В}
+    \begin{tabular}{l}
+    $ S \to CaCSCbC $\\
+    $ S \to CbCSCaC$\\
+    $ S \to CSCSC$\\
+    $ S \to C$\\
+    $ C \to cC $\\
+    $ C \to \epsilon$\\
+    \end{tabular}\\
+    Слова из этого языка - суть слова из языка $\{ w \in \{a, b\}^* | |w|_a = |w|_b \} $, в которых ещё есть бувкы $c$.
+    \subsection{Г}
+    $ S \to \epsilon$\\
+    $ S \to C$\\
+    $ C \to CC $\\
+    $ C \to ab $\\
+    $ C \to aCCb $\\
+    $C$ раскрывается в непустую подпоследовательность.
+    \subsection{Д}
+    $ S \to aSb | bSa $ \\
+    $ S \to aC|Ca $ \\
+    $ C \to aCb|bCa|\epsilon$\\
+    Слова из этого языка - суть слова из языка $\{ w \in \{a, b\}^* | |w|_a = |w|_b \} $ с лишней буквой $a$. 
+    Тогда переходы $ S \to aC|Ca $ соответсвуют добавлению лишней $a$ на каком-то этапе разбора слова.
+    \section{Задача №2}
+    Будем считать, что буквы $a$ увеличивают баданс на 2, $b$ снижают на 1.
+    Построим грамматику так, что символ $U$ будет раскрываться в слова c неотрицательным балансом.\\
+    $ U \to aUbUbU $\\
+    $ U \to \epsilon $\\
+    Действительно, $U$ может начинаться только на $a$. Так как $aUbUb$ соответствует словам с положительным балансом
+    везде, кроме начала и конца, её позиция точно определена. Аналогично определим $N$ - слова с неположительным балансом.
+    $ N \to \epsilon $\\
+    $ N \to bNbNaN $\\
+    Тогда раскрытия $S$ соответсвуют случаям, когда следующая позиция с нулевым балансом идёт после $a, b$.
+    $ S \to \epsilon $\\
+    $ S \to aUbUbS $\\
+    $ S \to bNaUbS $\\
+    $ S \to bNbNaS $\\
+    Такая грамматика будет однозначной. Приведём её к нормальной форме:
+    \begin{enumerate}
+    \item Избавимся от переходов в символы алфавита:\\
+    $ A \to a $\\
+    $ B \to b $\\
+    $ U \to AUBUBU $\\
+    $ U \to \epsilon $\\
+    $ N \to \epsilon $\\
+    $ N \to BNBNAN $\\
+    $ S \to \epsilon $\\
+    $ S \to AUBUBS $\\
+    $ S \to BNAUBS $\\
+    $ S \to BNBNAS $\\
+    \item Укоротим правила:\\
+    $ A \to a $\\
+    $ B \to b $\\
+    $ U_1 \to BU$\\
+    $ U_2 \to U_1U_1 $\\
+    $ A_1 \to AU$\\
+    $ N_1 \to BN$\\
+    $ N_2 \to N_1N_1$\\
+    $ A_0 \to AN$\\
+    $ S_1 \to BS$\\
+    $ S_0 \to AS$\\
+    $ T \to A_1U_1$\\
+    $ Y \to N_1A_1$\\
+    $ U \to A_1U_2 $\\
+    $ U \to \epsilon $\\
+    $ N \to \epsilon $\\
+    $ N \to N_2A_0 $\\
+    $ S \to \epsilon $\\
+    $ S \to TB_1 $\\
+    $ S \to YB_1 $\\
+    $ S \to N_2B_0 $\\
+    \item Найдём $\epsilon$-порождающие: это $S, N, U$.\\
+    $ S' \to S$
+    $ S' \to \epsilon$
+    $ A \to a $\\
+    $ B \to b $\\
+    $ U_1 \to BU$\\
+    $ U_1 \to B$\\
+    $ U_2 \to U_1U_1 $\\
+    $ A_1 \to AU$\\
+    $ A_1 \to A$\\
+    $ N_1 \to BN$\\
+    $ N_1 \to B$\\
+    $ N_2 \to N_1N_1$\\
+    $ A_0 \to AN$\\
+    $ A_0 \to A$\\
+    $ S_1 \to BS$\\
+    $ S_1 \to B$\\
+    $ S_0 \to AS$\\
+    $ S_0 \to A$\\
+    $ T \to A_1U_1$\\
+    $ Y \to N_1A_1$\\
+    $ U \to A_1U_2 $\\
+    $ N \to N_2A_0 $\\
+    $ S \to TB_1 $\\
+    $ S \to YB_1 $\\
+    $ S \to N_2B_0 $\\
+    \item Уберём бессмысленные переходы:\\
+    $ S' \to TB_1 $\\
+    $ S' \to YB_1 $\\
+    $ S' \to N_2B_0 $\\
+    $ S' \to \epsilon$\\
+    $ A \to a $\\
+    $ B \to b $\\
+    $ U_1 \to BU$\\
+    $ U_1 \to b$\\
+    $ U_2 \to U_1U_1 $\\
+    $ A_1 \to AU$\\
+    $ A_1 \to a$\\
+    $ N_1 \to BN$\\
+    $ N_1 \to b$\\
+    $ N_2 \to N_1N_1$\\
+    $ A_0 \to AN$\\
+    $ A_0 \to a$\\
+    $ S_1 \to BS$\\
+    $ S_1 \to b$\\
+    $ S_0 \to AS$\\
+    $ S_0 \to a$\\
+    $ T \to A_1U_1$\\
+    $ Y \to N_1A_1$\\
+    $ U \to A_1U_2 $\\
+    $ N \to N_2A_0 $\\
+    $ S \to TB_1 $\\
+    $ S \to YB_1 $\\
+    $ S \to N_2B_0 $\\
+    \end{enumerate}
+    
+\end{document}
