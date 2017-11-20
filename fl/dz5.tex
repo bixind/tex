@@ -1,0 +1,216 @@
+\documentclass{article}
+\usepackage[a4paper, margin=2cm]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage[russian]{babel}
+\usepackage{mathtools}
+\usepackage{amsmath}
+\usepackage{tikz}
+
+\usetikzlibrary{automata,positioning}
+
+\title{ДЗ №7}
+\author{Макаров Михаил}
+\date{}
+
+\begin{document}
+	\maketitle
+	\section{Построение}
+    Грамматика:\\
+    \begin{tabular}{c|l}
+    0 & $S' \to S$ \\
+    1 & $S \to C$ \\
+    2 & $S \to Sa$ \\
+    3 & $C \to Dd$ \\
+    4 & $D \to cD$ \\
+    5 & $D \to \varepsilon$ \\
+    6 & $S \to SSb$ \\
+    \end{tabular}
+    \begin{itemize}
+    \item 0:
+    \begin{tabular}{l}
+    $S' \to \cdot S, \$ $ \\
+    $C \to \cdot Dd, [\$, a, c, d] $ \\
+    $D \to \cdot cD, d $ \\
+    $D \to \cdot , d $ \\
+    $S \to \cdot C, [a, c, d, \$] $ \\
+    $S \to \cdot Sa, [a, c, d, \$] $ \\
+    $S \to \cdot SSb, [a, c, d, \$] $ \\
+    \end{tabular}
+    \item 1: $goto(0, S) = $
+    \begin{tabular}{l}
+    $S' \to S \cdot , \$ $ \\
+    $S \to S \cdot a, [a, c, d, \$] $ \\
+    $S \to S \cdot Sb, [a, c, d, \$] $ \\
+    $S \to \cdot C, [a, b, c, d] $ \\
+    $S \to \cdot Sa, [a, b, c, d] $ \\
+    $S \to \cdot SSb, [a, b, c, d] $ \\
+    $C \to \cdot Dd, [a, b, c, d] $ \\
+    $D \to \cdot cD, d $ \\
+    $D \to \cdot , d $ \\
+    \end{tabular}
+    \item 2: $goto(0, C) = $
+    \begin{tabular}{l}
+    $S \to C \cdot, [a, c, d, \$] $ \\
+    \end{tabular}
+    
+    \item 3: $goto(0, D) = $
+    \begin{tabular}{l}
+    $C \to D \cdot d, [\$, a, c, d] $ \\
+    \end{tabular}
+    
+    \item 4: $goto(0, c) = $
+    \begin{tabular}{l}
+    $D \to c \cdot D, d $ \\
+    $D \to \cdot cD, d $ \\
+    $D \to \cdot , d $ \\
+    \end{tabular}
+    
+    \item 5: $goto(1, S) = $
+    \begin{tabular}{l}
+    $S \to SS \cdot b, [a, c, d, \$] $ \\
+    $S \to S \cdot a, [a, b, c, d] $ \\
+    $S \to S \cdot Sb, [a, b, c, d] $ \\
+    $S \to \cdot C, [a, b, c, d] $ \\
+    $S \to \cdot Sa, [a, b, c, d] $ \\
+    $S \to \cdot SSb, [a, b, c, d] $ \\
+    $C \to \cdot Dd, [a, b, c, d] $ \\
+    $D \to \cdot cD, d $ \\
+    $D \to \cdot , d $ \\
+    \end{tabular} 
+ 
+    \item 6: $goto(1, C) = $
+    \begin{tabular}{l}
+    $S \to C \cdot, [a, c, d, \$] $ \\
+    \end{tabular}
+    
+    \item 15: $goto(1, D) = $
+    \begin{tabular}{l}
+    $C \to D \cdot d, [a, b, c, d] $ \\
+    \end{tabular}
+    
+    \item 16: $goto(15, d) = $
+    \begin{tabular}{l}
+    $C \to Dd \cdot, [a, b, c, d] $ \\
+    \end{tabular}
+   
+    \item 7: $goto(1, a) = $
+    \begin{tabular}{l}
+    $S \to Sa \cdot, [a, c, d, \$] $ \\
+    \end{tabular}    
+    
+    \item $goto(1, c) = 4$
+    
+    \item 8: $goto(3, d) = $
+    \begin{tabular}{l}
+    $C \to Dd \cdot, [\$, a, c, d] $ \\
+    \end{tabular}
+    
+    \item 9: $goto(4, D) = $
+    \begin{tabular}{l}
+    $D \to cD \cdot, d $ \\
+    \end{tabular}
+    
+    \item $goto(4, c) = 4$
+    
+    \item 10: $goto(5, S) = $
+    \begin{tabular}{l}
+    $S \to SS \cdot b, [a, b, c, d] $ \\
+    $S \to S \cdot a, [a, b, c, d] $ \\
+    $S \to S \cdot Sb, [a, b, c, d] $ \\
+    $S \to \cdot C, [a, b, c, d] $ \\
+    $S \to \cdot Sa, [a, b, c, d] $ \\
+    $S \to \cdot SSb, [a, b, c, d] $ \\
+    $C \to \cdot Dd, [a, b, c, d] $ \\
+    $D \to \cdot cD, d $ \\
+    $D \to \cdot , d $ \\
+    \end{tabular} 
+  
+    \item 14: $goto(5, C) =$
+    \begin{tabular}{l}
+    $S \to C \cdot, [a, b, c, d] $ \\
+    \end{tabular}
+    
+    \item $goto(5, D) = 15$
+    
+    \item $goto(5, c) = 4$
+    
+    \item 11: $goto(5, a) =$
+    \begin{tabular}{l}
+    $S \to Sa \cdot, [a, b, c, d] $ \\
+    \end{tabular} 
+    
+    \item 12: $goto(5, b) =$
+    \begin{tabular}{l}
+    $S \to SSb \cdot, [a, c, d, \$] $ \\
+    \end{tabular} 
+    
+    \item $goto(10, S) = 10$
+    
+    \item $goto(10, C) = 14$
+    
+    \item $goto(10, D) = 15$
+    
+    \item $goto(10, c) = 4$    
+    
+    \item $goto(10, a) = 11$
+   
+    \item 13: $goto(10, b) =$
+    \begin{tabular}{l}
+    $S \to SSb \cdot, [a, b, c, d] $ \\
+    \end{tabular} 
+    \end{itemize}
+    Таблица:\\
+    \begin{tabular}{c | c | c | c | c | c | c | c | c }
+    & a & b & c & d & S & C & D & \$ \\
+    \hline
+    0 & & & 4 & r5 & 1 & 2 & 3 & \\
+    1 & 7 & & 4 & r5 & 5 & 6 & 15 & acc \\
+    2 & r1 & & r1 & r1 & & & & r1 \\
+    3 & & & & 8 & & & & \\
+    4 & & & 4 & r5 & & & 9 & \\
+    5 & 11 & 12 & 4 & r5 & 10 & 14 & 15 & \\
+    6 & r1 &  & r1 & r1 & & & & r1 \\
+    7 & r2 & & r2 & r2 & & & & r2 \\
+    8 & r3 & & r3 & r3 & & & & r3 \\
+    9 & & & & r4 & & & & \\
+    10 & 11 & 13 & 4 & r5 & 10 & 14 & 15 & \\
+    11 & r2 & r2 & r2 & r2 & & & \\
+    12 & r6 & & r6 & r6 & & & & r6\\
+    13 & r6 & r6 & r6 & r6 & &  & \\
+    14 & r1 & r1 & r1 & r1 & & & & \\
+    15 &  &  &  & 16 & & & & \\
+    16 & r3 & r3 & r3 & r3 & & & & \\
+    \end{tabular}
+    
+    \section{Разбор}
+    Разберём слово $cdadcdbba$:\\
+    \begin{tabular}{l|l}
+    0 & cdadcdbba \\
+    0c4 & dadcdbba \\
+    0c4D9 & dadcdbba \\
+    0D3 & dadcdbba \\
+    0D3d8 & adcdbba \\
+    0C2 & adcdbba \\
+    0S1 & adcdbba \\
+    0S1a7 & dcdbba \\
+    0S1 & dcdbba \\
+    0S1D15 & dcdbba \\
+    0S1D15d16 &  cdbba \\
+    OS1C6 & cdbba \\
+    0S1S5 & cdbba \\
+    0S1S5c4 & dbba \\
+    0S1S5c4D9 & dbba \\
+    0S1S5D & dbba \\
+    0S1S5D15 & dbba \\
+    0S1S5D15d16 & bba \\
+    0S1S5C14 & bba \\
+    0S1S5S10 & bba \\
+    0S1S5S10b13 & ba \\
+    0S1S5 & ba \\
+    0S1S5b12 & a \\
+    0S1 & a \\
+    0S1a7 & \\
+    0S1 & acc\\
+    \end{tabular}\\
+    Слово принимается.
+\end{document}

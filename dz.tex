@@ -1,0 +1,35 @@
+\documentclass{article}
+\usepackage[a4paper, margin=2cm]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage[russian]{babel}
+\usepackage{mathtools}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{tikz}
+\usepackage{amsthm}
+
+\usetikzlibrary{automata,positioning}
+
+\newcommand{\range}[2]{
+    \{#1, \ldots, #2 \}
+}
+
+\title{Домашнее задание 8}
+\author{Макаров Михаил}
+\date{}
+
+\newtheorem{prop}{Утверждение}
+
+\begin{document}
+	\maketitle
+    \section*{1} 
+    Так как $e^x$ монотонно возрастает на $\mathbb{R}$, то для любого $q \in \mathbb{Q}$ существует не больше
+    одного корня уравнения $e^x = q$, следовательно множество $A$ не более чем счётно, следовательно оно измеримо 
+    по Лебегу и его мера равна $0$.
+    \section*{2}
+    Если $A \in [0, 1], X \in [0, 1]$, то $ A \Delta X = ([0, 1] - A) \Delta ([0, 1] - X)$. \\
+    Зафиксируем $\epsilon > 0$, 
+    тогда $\exists A: \mu^*(A \Delta X) < \epsilon \leftrightarrow \exists A: \mu^*(([0, 1] - A) \Delta ([0, 1] - X)) < \epsilon$, следовательно $X$ измеримо по Лебегу если и только если $[0, 1] - X$ измеримо по Лебегу.
+    \section*{3}
+    Пусть $E = \bigcup_{i = 1}^{\infty} E_i$, $F = \bigcup_{i = 1}^{\infty} F_i$. 
+\end{document}

@@ -8,176 +8,149 @@
 
 \usetikzlibrary{automata,positioning}
 
-\title{ДЗ №4}
+\title{ДЗ №7}
 \author{Макаров Михаил}
 \date{}
 
 \begin{document}
 	\maketitle
-
-    \section{Задача №1}
-    \subsection{А}
+	\section{Построение}
+    Грамматика:\\
+    \begin{tabular}{c|l}
+    0 & $S' \to S$ \\
+    1 & $S \to C$ \\
+    2 & $S \to Sa$ \\
+    3 & $C \to Dd$ \\
+    4 & $D \to cD$ \\
+    5 & $D \to \varepsilon$ \\
+    6 & $S \to SSb$ \\
+    \end{tabular}
+    \begin{itemize}
+    \item 0:
     \begin{tabular}{l}
-    $ S \to AR $\\
-    $ S \to LC $\\
-    $ L \to aLb $\\
-    $ R \to bRc $\\
-    $ L \to aA $\\
-    $ R \to cC $\\
-    $ A \to aA $\\
-    $ C \to cC $\\
-    $ A \to \epsilon$\\
-    $ C \to \epsilon$\\
-    \end{tabular}\\
-    По построению $L$ раскрывается в $a^nb^m|n > m$, $R$ в $b^nc^m|n < m$.
-    \subsection{Б}
+    $S' \to \cdot S, \$ $ \\
+    $S \to \cdot C, \$ $ \\
+    $S \to \cdot Sa, \$ $ \\
+    $C \to \cdot Dd, \$ $ \\
+    $D \to \cdot cD, d $ \\
+    $D \to \cdot , d $ \\
+    $S \to \cdot SSb, \$ $ \\
+    $S \to \cdot C, a $ \\
+    $C \to \cdot Dd, a $ \\
+    $S \to \cdot Sa, a $ \\
+    $S \to \cdot SSb, a $ \\
+    \end{tabular}
+    \item 1: $goto(0, S) = $
     \begin{tabular}{l}
-    $ S \to aC $\\
-    $ S \to AaaC$\\
-    $ S \to CB$\\
-    $ A \to aA$\\
-    $ A \to \epsilon$\\
-    $ B \to bB$\\
-    $ B \to \epsilon$\\
-    $ C \to aCb $\\
-    $ C \to \epsilon$\\
-    \end{tabular}\\
-    По построению $C$ раскрывается в $a^lb^l$, тогда переходы из $S$ соответсвуют случаям, когда 
-    $n - m = 1$, $n - m > 2$, $n - m < 0$.
-    \subsection{В}
+    $S' \to S \cdot , \$ $ \\
+    $S \to S \cdot a, \$ $ \\
+    $S \to S \cdot Sb, \$ $ \\
+    $S \to \cdot C, b $ \\
+    $S \to \cdot Sa, b $ \\
+    $S \to \cdot SSb, b $ \\
+    \end{tabular}
+    \item 2: $goto(0, C) = $
     \begin{tabular}{l}
-    $ S \to CaCSCbC $\\
-    $ S \to CbCSCaC$\\
-    $ S \to CSCSC$\\
-    $ S \to C$\\
-    $ C \to cC $\\
-    $ C \to \epsilon$\\
-    \end{tabular}\\
-    Слова из этого языка - суть слова из языка $\{ w \in \{a, b\}^* | |w|_a = |w|_b \} $, в которых ещё есть бувкы $c$.
-    Идея доказательства - рассмотреть отображение $f$, переводящее слова из $\{a, b, c \}^*$ в $\{a, b\}^* $.
-    Оно сохраняет баланс букв $a, b$, значит, образ слова лежит в $\{ w \in \{a, b\}^* | |w|_a = |w|_b \} $
-    тогда и только тогда, когда само слово лежит в исходном языке. Тогда данная грамматика будет
-    включать в себя все слова, образ которых - слова из $\{ w \in \{a, b\}^* | |w|_a = |w|_b \} $.
-    \subsection{Г}
-    $ S \to \epsilon$\\
-    $ S \to C$\\
-    $ C \to CC $\\
-    $ C \to ab $\\
-    $ C \to aCCb $\\
-    $C$ раскрывается в непустую подпоследовательность.
-    \subsection{Д}
-    $ S \to aSbС | aCbS | bSaС | bCaS  $ \\
-    $ S \to aC|Ca $ \\
-    $ S \to SC | CS $\\
-    $ C \to aCbC | bCaC | \epsilon$\\
-    Слова из этого языка - суть слова из языка $\{ w \in \{a, b\}^* | |w|_a = |w|_b \} $ с лишней буквой $a$. 
-    Тогда переходы $ S \to aC|Ca $ соответсвуют добавлению лишней $a$ на каком-то этапе разбора слова.
-    Конкретнее, отметим произвольную букву $a$ в слове и будем считать, что она не изменяет баланс. Тогда 
-    если баланс перед отмеченной буквы - 0, то она накроется переходами 2 и 3, иначе она будет вложена
-    в одино из подслов с однозначным балансом. Заметим, что так как все переходы, кроме 3, сохраняют число
-    букв $S$, в конце баланс будет строго равен 1.
-    \section{Задача №2}
-    Будем считать, что буквы $a$ увеличивают баданс на 2, $b$ снижают на 1.
-    Построим грамматику так, что символ $U$ будет раскрываться в слова c неотрицательным балансом.\\
-    $ U \to aUbUbU $\\
-    $ U \to \epsilon $\\
-    Действительно, $U$ может начинаться только на $a$. Так как $aUbUb$ соответствует словам с положительным балансом
-    везде, кроме начала и конца, её позиция точно определена. Аналогично определим $N$ - слова с неположительным балансом.
-    $ N \to \epsilon $\\
-    $ N \to bNbNaN $\\
-    Тогда раскрытия $S$ соответсвуют случаям, когда следующая позиция с нулевым балансом идёт после $a, b$.
-    $ S \to \epsilon $\\
-    $ S \to aUbUbS $\\
-    $ S \to bNaUbS $\\
-    $ S \to bNbNaS $\\
-    Такая грамматика будет однозначной. Приведём её к нормальной форме:
-    \begin{enumerate}
-    \item Избавимся от переходов в символы алфавита:\\
-    $ A \to a $\\
-    $ B \to b $\\
-    $ U \to AUBUBU $\\
-    $ U \to \epsilon $\\
-    $ N \to \epsilon $\\
-    $ N \to BNBNAN $\\
-    $ S \to \epsilon $\\
-    $ S \to AUBUBS $\\
-    $ S \to BNAUBS $\\
-    $ S \to BNBNAS $\\
-    \item Укоротим правила:\\
-    $ A \to a $\\
-    $ B \to b $\\
-    $ U_1 \to BU$\\
-    $ U_2 \to U_1U_1 $\\
-    $ A_1 \to AU$\\
-    $ N_1 \to BN$\\
-    $ N_2 \to N_1N_1$\\
-    $ A_0 \to AN$\\
-    $ S_1 \to BS$\\
-    $ S_0 \to AS$\\
-    $ T \to A_1U_1$\\
-    $ Y \to N_1A_1$\\
-    $ U \to A_1U_2 $\\
-    $ U \to \epsilon $\\
-    $ N \to \epsilon $\\
-    $ N \to N_2A_0 $\\
-    $ S \to \epsilon $\\
-    $ S \to TB_1 $\\
-    $ S \to YB_1 $\\
-    $ S \to N_2B_0 $\\
-    \item Найдём $\epsilon$-порождающие: это $S, N, U$.\\
-    $ S' \to S$
-    $ S' \to \epsilon$
-    $ A \to a $\\
-    $ B \to b $\\
-    $ U_1 \to BU$\\
-    $ U_1 \to B$\\
-    $ U_2 \to U_1U_1 $\\
-    $ A_1 \to AU$\\
-    $ A_1 \to A$\\
-    $ N_1 \to BN$\\
-    $ N_1 \to B$\\
-    $ N_2 \to N_1N_1$\\
-    $ A_0 \to AN$\\
-    $ A_0 \to A$\\
-    $ S_1 \to BS$\\
-    $ S_1 \to B$\\
-    $ S_0 \to AS$\\
-    $ S_0 \to A$\\
-    $ T \to A_1U_1$\\
-    $ Y \to N_1A_1$\\
-    $ U \to A_1U_2 $\\
-    $ N \to N_2A_0 $\\
-    $ S \to TB_1 $\\
-    $ S \to YB_1 $\\
-    $ S \to N_2B_0 $\\
-    \item Уберём бессмысленные переходы:\\
-    $ S' \to TB_1 $\\
-    $ S' \to YB_1 $\\
-    $ S' \to N_2B_0 $\\
-    $ S' \to \epsilon$\\
-    $ A \to a $\\
-    $ B \to b $\\
-    $ U_1 \to BU$\\
-    $ U_1 \to b$\\
-    $ U_2 \to U_1U_1 $\\
-    $ A_1 \to AU$\\
-    $ A_1 \to a$\\
-    $ N_1 \to BN$\\
-    $ N_1 \to b$\\
-    $ N_2 \to N_1N_1$\\
-    $ A_0 \to AN$\\
-    $ A_0 \to a$\\
-    $ S_1 \to BS$\\
-    $ S_1 \to b$\\
-    $ S_0 \to AS$\\
-    $ S_0 \to a$\\
-    $ T \to A_1U_1$\\
-    $ Y \to N_1A_1$\\
-    $ U \to A_1U_2 $\\
-    $ N \to N_2A_0 $\\
-    $ S \to TB_1 $\\
-    $ S \to YB_1 $\\
-    $ S \to N_2B_0 $\\
-    \end{enumerate}
+    $S \to C \cdot, \$$ \\
+    \end{tabular}
     
+    \item 3: $goto(0, D) = $
+    \begin{tabular}{l}
+    $C \to D \cdot d, \$$ \\
+    \end{tabular}
+    
+    \item 4: $goto(0, c) = $
+    \begin{tabular}{l}
+    $D \to c \cdot D, \$ $ \\
+    $D \to \cdot cD, \$ $ \\
+    $D \to \cdot , \$ $ \\
+    \end{tabular}
+    
+    \item 5: $goto(1, S) = $
+    \begin{tabular}{l}
+    $S \to SS \cdot b, \$ $ \\
+    $S \to S \cdot a, b $ \\
+    $S \to S \cdot Sb, b $ \\
+    $S \to \cdot C, b $ \\
+    $S \to \cdot Sa, b $ \\
+    $S \to \cdot SSb, b $ \\
+    \end{tabular} 
+ 
+    \item 6: $goto(1, C) = $
+    \begin{tabular}{l}
+    $S \to C \cdot, b $ \\
+    \end{tabular}
+    
+    \item 7: $goto(1, a) = $
+    \begin{tabular}{l}
+    $S \to Sa \cdot, \$ $ \\
+    \end{tabular}    
+    
+    \item 8: $goto(3, d) = $
+    \begin{tabular}{l}
+    $C \to Dd \cdot, \$ $ \\
+    \end{tabular}
+    
+    \item 9: $goto(4, D) = $
+    \begin{tabular}{l}
+    $D \to cD \cdot, \$ $ \\
+    \end{tabular}
+    
+    \item $goto(0, c) = 4$
+    
+    \item 10: $goto(5, S) = $
+    \begin{tabular}{l}
+    $S \to SS \cdot b, b $ \\
+    $S \to S \cdot a, b $ \\
+    $S \to S \cdot Sb, b $ \\
+    $S \to \cdot C, b $ \\
+    $S \to \cdot Sa, b $ \\
+    $S \to \cdot SSb, b $ \\
+    \end{tabular} 
+  
+    \item $goto(5, C) = 6$
+    
+    \item 11: $goto(5, a) =$
+    \begin{tabular}{l}
+    $S \to Sa \cdot, b $ \\
+    \end{tabular} 
+    
+    \item 12: $goto(5, b) =$
+    \begin{tabular}{l}
+    $S \to SSb \cdot, \$ $ \\
+    \end{tabular} 
+    
+    \item $goto(10, S) = 10$
+    
+    \item $goto(10, C) = 6$
+    
+    \item $goto(10, a) = 11$
+   
+    \item 13: $goto(10, b) =$
+    \begin{tabular}{l}
+    $S \to SSb \cdot, b $ \\
+    \end{tabular} 
+    \end{itemize}
+    Таблица:\\
+    \begin{tabular}{c | c | c | c | c | c | c | c | c }
+    & a & b & c & d & S & C & D & \$ \\
+    \hline
+    0 & & & 4 & & 1 & 2 & 3 & r1 \\
+    1 & 7 & & & & 5 & 6 & & acc \\
+    2 & & & & & & & & r1 \\
+    3 & & & & 8 & & & & \\
+    4 & & & & & & & 9 & r5 \\
+    5 & 11 & 12 & & & 10 & 6 & & \\
+    6 & & r1 & & & & & & \\
+    7 & & & & & & & & r2 \\
+    8 & & & & & & & & r3 \\
+    9 & & & & & & & & r4 \\
+    10 & 11 & 13 & & & 10 & 6 & & \\
+    11 & & r2 & & & & & \\
+    12 & & & & & & & & r6\\
+    13 & & r6 & & & &  & \\
+    \end{tabular}
+    
+    \section{Разбор}
+    Разберём слово 
 \end{document}
